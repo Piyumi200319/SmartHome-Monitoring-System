@@ -1,0 +1,52 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="160dp"
+    android:viewportWidth="400"
+    android:viewportHeight="160">
+    
+    <!-- Background -->
+    <path
+        android:fillColor="#F8FAFC"
+        android:pathData="M 0,0 H 400 V 160 H 0 Z" />
+
+    <!-- Grid Lines -->
+    <path
+        android:strokeColor="#E2E8F0"
+        android:strokeWidth="1"
+        android:pathData="M 0,20 H 400 M 0,40 H 400 M 0,60 H 400 M 0,80 H 400 M 0,100 H 400 M 0,120 H 400 M 0,140 H 400 M 40,0 V 160 M 80,0 V 160 M 120,0 V 160 M 160,0 V 160 M 200,0 V 160 M 240,0 V 160 M 280,0 V 160 M 320,0 V 160 M 360,0 V 160" />
+
+    <!-- Outer Perimeter Wall -->
+    <path
+        android:strokeColor="#1E293B"
+        android:strokeWidth="3.5"
+        android:pathData="M 16,16 H 384 V 144 H 16 Z" />
+
+    <!-- Interior Partitions (Master Bedroom, Study, Balcony) -->
+    <path
+        android:strokeColor="#334155"
+        android:strokeWidth="2.5"
+        android:pathData="M 230,16 V 144 M 16,90 H 230" />
+
+    <!-- Door Swing Arcs -->
+    <path
+        android:strokeColor="#3B82F6"
+        android:strokeWidth="1.5"
+        android:pathData="M 230,55 A 15,15 0 0,0 215,70 M 110,90 A 15,15 0 0,0 125,105" />
+
+    <!-- Device Location Nodes -->
+    <path
+        android:fillColor="#22C55E"
+        android:pathData="M 100,50 A 7,7 0 1,1 100,49.9 Z" />
+    <path
+        android:fillColor="#3B82F6"
+        android:pathData="M 100,120 A 7,7 0 1,1 100,119.9 Z" />
+
+    <path
+        android:fillColor="#6366F1"
+        android:pathData="M 310,80 A 7,7 0 1,1 310,79.9 Z" />
+
+    <!-- Blueprint Grid Badge -->
+    <path
+        android:fillColor="#0F172A"
+        android:pathData="M 25,25 H 145 V 45 H 25 Z" />
+</vector>

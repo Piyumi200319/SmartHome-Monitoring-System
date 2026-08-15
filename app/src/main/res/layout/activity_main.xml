@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#F6F8FC" android:fillViewport="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingBottom="16dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="18dp" android:paddingTop="18dp" android:paddingEnd="18dp" android:paddingBottom="10dp" android:orientation="horizontal" android:gravity="center_vertical">
+        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:padding="4dp" android:src="@drawable/ic_home_modern" android:contentDescription="SmartHome"/>
+        <TextView android:id="@+id/txtTitle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="9dp" android:text="SmartHome" android:textStyle="bold" android:textSize="24sp" android:textColor="@color/textPrimary"/>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="#ECFDF5" android:paddingStart="8dp" android:paddingEnd="10dp" android:paddingTop="5dp" android:paddingBottom="5dp">
+            <ImageView android:id="@+id/imgLive" android:layout_width="14dp" android:layout_height="14dp" android:src="@drawable/ic_live_modern" android:contentDescription="Live"/>
+            <TextView android:id="@+id/txtLive" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="LIVE" android:textColor="#15803D" android:textStyle="bold" android:textSize="11sp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="18dp" android:layout_marginTop="5dp" android:text="Home Overview" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/textPrimary"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="12dp">
+        <LinearLayout android:layout_width="0dp" android:layout_height="108dp" android:layout_weight="1" android:layout_marginEnd="6dp" android:orientation="vertical" android:gravity="center" android:background="@drawable/bg_dashboard_card" android:elevation="3dp" android:padding="8dp">
+            <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_dashboard_devices" android:contentDescription="Total devices"/>
+            <TextView android:id="@+id/txtTotalDevices" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/textPrimary"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total Devices" android:textSize="12sp" android:textColor="#64748B"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="108dp" android:layout_weight="1" android:layout_marginStart="6dp" android:orientation="vertical" android:gravity="center" android:background="@drawable/bg_dashboard_on" android:elevation="3dp" android:padding="8dp">
+            <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_dashboard_on" android:contentDescription="Devices on"/>
+            <TextView android:id="@+id/txtDevicesOn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="#15803D"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Devices ON" android:textSize="12sp" android:textColor="#64748B"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingStart="12dp" android:paddingEnd="12dp">
+        <LinearLayout android:layout_width="0dp" android:layout_height="108dp" android:layout_weight="1" android:layout_marginEnd="6dp" android:orientation="vertical" android:gravity="center" android:background="@drawable/bg_dashboard_off" android:elevation="3dp" android:padding="8dp">
+            <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_dashboard_off" android:contentDescription="Devices off"/>
+            <TextView android:id="@+id/txtDevicesOff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="#475569"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Devices OFF" android:textSize="12sp" android:textColor="#64748B"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="108dp" android:layout_weight="1" android:layout_marginStart="6dp" android:orientation="vertical" android:gravity="center" android:background="@drawable/bg_dashboard_power" android:elevation="3dp" android:padding="8dp">
+            <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/ic_dashboard_power" android:contentDescription="Current power"/>
+            <TextView android:id="@+id/txtTotalPower" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 W" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/textPrimary"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Current Power" android:textSize="12sp" android:textColor="#64748B"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingStart="16dp" android:paddingEnd="16dp" android:paddingTop="14dp" android:gravity="center_vertical">
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnNotifications" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:layout_marginEnd="6dp" android:text="Notifications" android:textAllCaps="false" android:textSize="14sp" android:textStyle="bold" app:icon="@drawable/ic_notifications_modern" app:iconGravity="textStart" app:cornerRadius="14dp"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnReports" android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="Energy &amp; Reports" android:textAllCaps="false" android:textSize="14sp" android:textStyle="bold" app:icon="@drawable/ic_report_modern" app:iconGravity="textStart" app:cornerRadius="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="18dp" android:layout_marginTop="20dp" android:layout_marginEnd="18dp" android:orientation="horizontal" android:gravity="center_vertical">
+        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_floor_modern" android:contentDescription="Floors"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" android:text="House Floors" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/textPrimary"/>
+        
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnAddFloor" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+ Add Floor" android:textSize="13sp" android:textAllCaps="false" app:cornerRadius="12dp"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvRooms" android:layout_width="match_parent" android:layout_height="wrap_content" android:nestedScrollingEnabled="false" android:padding="12dp"/>
+</LinearLayout>
+</ScrollView>

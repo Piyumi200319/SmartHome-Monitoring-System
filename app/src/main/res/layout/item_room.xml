@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="158dp" android:layout_margin="6dp" app:cardCornerRadius="18dp" app:cardElevation="3dp" app:cardBackgroundColor="@android:color/white" app:strokeWidth="1dp" app:strokeColor="#E2E8F0">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="14dp">
+        <com.google.android.material.card.MaterialCardView android:layout_width="56dp" android:layout_height="56dp" app:cardCornerRadius="16dp" app:cardBackgroundColor="#EEF2FF" app:cardElevation="0dp">
+            <ImageView android:id="@+id/imgRoomIcon" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="12dp" android:src="@drawable/ic_room_modern" android:contentDescription="Room icon"/>
+        </com.google.android.material.card.MaterialCardView>
+        <TextView android:id="@+id/txtRoomName" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="9dp" android:gravity="center" android:text="Kitchen" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/textPrimary"/>
+        <TextView android:id="@+id/txtDeviceCount" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:gravity="center" android:text="3 Devices" android:textSize="12sp" android:textColor="#64748B"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

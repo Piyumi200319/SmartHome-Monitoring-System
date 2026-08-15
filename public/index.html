@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartHome Hardware Simulator - SCS 3311</title>
+  <meta name="description" content="Web-Based Hardware Simulator for SmartHome SCS 3311 project featuring real-time bidirectional Firebase Firestore synchronization.">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Firebase Compat SDKs (v9.23.0) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-title">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text">
+          <h1>SmartHome Hardware Simulator</h1>
+          <p>SCS 3311 Specification • Real-Time Firebase Sync</p>
+        </div>
+      </div>
+      <div class="sync-status" id="firebaseSyncStatus">
+        <span class="sync-dot"></span>
+        <span id="syncStatusText">Connecting to Firebase...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Telemetry Bar -->
+  <section class="dashboard-stats">
+    <div class="stat-card">
+      <div class="stat-icon">📱</div>
+      <div class="stat-info">
+        <div class="stat-value" id="statTotalDevices">0</div>
+        <div class="stat-label">Total Hardware Devices</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🟢</div>
+      <div class="stat-info">
+        <div class="stat-value" id="statActiveDevices">0</div>
+        <div class="stat-label">Active (ON / LIVE)</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⚡</div>
+      <div class="stat-info">
+        <div class="stat-value" id="statTotalPower">0 W</div>
+        <div class="stat-label">Total Load Power</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-info">
+        <div class="stat-value" id="statTotalEnergy">0.00 kWh</div>
+        <div class="stat-label">Today's Total Consumption</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation & Filtering Bar -->
+  <section class="filter-section">
+    <!-- Floor Tabs & Search -->
+    <div class="nav-row">
+      <div class="tabs-container" id="floorTabs">
+        <button class="tab-btn active" data-floor-id="ALL">
+          <span>🏢</span> All Floors
+        </button>
+      </div>
+      
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search devices or rooms...">
+      </div>
+    </div>
+
+    <!-- Room Pills -->
+    <div class="nav-row">
+      <div class="tabs-container" id="roomTabs">
+        <button class="tab-btn active" data-room-id="ALL">
+          <span>🚪</span> All Rooms
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Device Grid Layout -->
+  <main class="main-content">
+    <div class="section-title">
+      <span>🛠️</span> Physical Smart Home Hardware Units
+    </div>
+
+    <div class="device-grid" id="deviceGrid">
+      <div class="empty-state">
+        <h3>Loading Smart Home Devices...</h3>
+        <p>Connecting to Firestore real-time snapshot listener.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Interactive Device Detail Modal (Representation of Android DeviceDetailActivity) -->
+  <div class="modal-overlay" id="deviceModal">
+    <div class="modal-card">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <div class="device-type-icon" id="modalDeviceIcon">🔌</div>
+          <div>
+            <h2 id="modalDeviceTitle">Device Detail</h2>
+            <p id="modalDeviceSub">Floor • Room</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        
+        <!-- Status Alert Banners -->
+        <div class="status-alert-banner error" id="alertError" style="display: none;">
+          <div class="alert-icon">⚠️</div>
+          <div class="alert-content">
+            <h4 id="alertErrorTitle">HARDWARE FAULT DETECTED</h4>
+            <p id="alertErrorBody">Device internal component or thermal limit fault. Controls locked.</p>
+          </div>
+        </div>
+
+        <div class="status-alert-banner disconnected" id="alertDisconnected" style="display: none;">
+          <div class="alert-icon">📡</div>
+          <div class="alert-content">
+            <h4 id="alertDisconnectedTitle">DEVICE DISCONNECTED</h4>
+            <p id="alertDisconnectedBody">Device lost cloud Wi-Fi connectivity. Real-time controls unavailable.</p>
+          </div>
+        </div>
+
+        <!-- Section: Status Simulator -->
+        <div class="detail-card-section">
+          <div class="section-label">⚙️ Hardware Status Simulator</div>
+          <div class="sim-controls-grid">
+            <button class="btn-sim" data-sim="ON">Set ON</button>
+            <button class="btn-sim" data-sim="OFF">Set OFF</button>
+            <button class="btn-sim" data-sim="ERROR">Set ERROR</button>
+            <button class="btn-sim" data-sim="DISCONNECTED">Set DISCONNECTED</button>
+          </div>
+        </div>
+
+        <!-- Device Specific Control Panels -->
+        
+        <!-- 1. Outlet -->
+        <div class="detail-card-section device-ctrl-panel" id="panelOutlet" style="display: none;">
+          <div class="section-label">🔌 Outlet Power Switch</div>
+          <div class="switch-item-row">
+            <div class="switch-item-info"><span>Main Power Switch</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleOutletPower">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 2. Smart Light -->
+        <div class="detail-card-section device-ctrl-panel" id="panelLight" style="display: none;">
+          <div class="section-label">💡 Light Control & Brightness</div>
+          <div class="switch-item-row" style="margin-bottom: 16px;">
+            <div class="switch-item-info"><span>Light Power Switch</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleLightPower">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+          
+          <div class="slider-group">
+            <div class="slider-header">
+              <span id="lblLightBrightness">Brightness : 80%</span>
+            </div>
+            <input type="range" min="0" max="100" value="80" class="custom-slider" id="sliderLightBrightness">
+          </div>
+        </div>
+
+        <!-- 3. Multi-Switch -->
+        <div class="detail-card-section device-ctrl-panel" id="panelSwitch" style="display: none;">
+          <div class="section-label">🎛️ Individual Multi-Switches</div>
+          
+          <div class="switch-item-row">
+            <div class="switch-item-info"><span>Switch 1 (Gang 1)</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleSwitch1">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+
+          <div class="switch-item-row">
+            <div class="switch-item-info"><span>Switch 2 (Gang 2)</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleSwitch2">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+
+          <div class="switch-item-row">
+            <div class="switch-item-info"><span>Switch 3 (Gang 3)</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleSwitch3">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. Iron -->
+        <div class="detail-card-section device-ctrl-panel" id="panelIron" style="display: none;">
+          <div class="section-label">🔥 Safety Iron Control & Thermal Protection</div>
+          
+          <div class="switch-item-row" style="margin-bottom: 16px;">
+            <div class="switch-item-info"><span>Iron Heating Switch</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleIronPower">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+
+          <div class="telemetry-grid" style="margin-bottom: 16px;">
+            <div class="telemetry-card">
+              <div class="t-label">Max Allowed Duration</div>
+              <div class="t-val" id="lblIronMaxTime">120 Minutes</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="t-label">Timer Remaining</div>
+              <div class="t-val" id="lblIronTimer">0 s</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="t-label">Safety Mode Status</div>
+              <div class="t-val" id="lblIronSafetyMode">SAFE</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="t-label">Heating Element State</div>
+              <div class="t-val" id="lblIronHeating">OFF</div>
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Iron Operating Temperature</span>
+              <span id="lblIronTemperature" style="font-weight: 700;">120°C</span>
+            </div>
+            <input type="range" min="50" max="250" value="120" class="custom-slider" id="sliderIronTemperature">
+          </div>
+        </div>
+
+        <!-- 5. Security Camera -->
+        <div class="detail-card-section device-ctrl-panel" id="panelCamera" style="display: none;">
+          <div class="section-label">📹 Live Camera Feed & Smart Features</div>
+          
+          <div class="camera-viewport">
+            <img src="camera_snapshot.jpg" alt="Camera Preview" class="camera-canvas" id="imgCameraPreview">
+            <div class="camera-overlay-badge">
+              <span class="rec-dot" id="dotRec" style="display: none;"></span>
+              <span id="lblCameraLiveStatus">LIVE</span>
+            </div>
+            <div class="night-vision-tint" id="tintNightVision"></div>
+            <div class="motion-box" id="boxMotion"></div>
+            <div class="camera-timestamp" id="cameraTimestamp">2026-08-15 18:15:00</div>
+          </div>
+
+          <div class="switch-item-row" style="margin-top: 14px;">
+            <div class="switch-item-info"><span>Main Camera Power</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleCameraPower">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+
+          <div class="switch-item-row">
+            <div class="switch-item-info"><span>Video Recording</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleCameraRecording">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+
+          <div class="switch-item-row">
+            <div class="switch-item-info"><span>Motion Detection Overlay</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleCameraMotion">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+
+          <div class="switch-item-row">
+            <div class="switch-item-info"><span>Night Vision Mode</span></div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="toggleCameraNightVision">
+              <span class="slider-knob"></span>
+            </label>
+          </div>
+
+          <div class="telemetry-grid" style="margin-top: 14px;">
+            <div class="telemetry-card">
+              <div class="t-label">Stream Resolution</div>
+              <div class="t-val" id="lblCameraResolution">1080P</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="t-label">Frame Rate</div>
+              <div class="t-val" id="lblCameraFPS">30 FPS</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule Section -->
+        <div class="detail-card-section">
+          <div class="section-label">⏱️ Hardware Timer Schedule</div>
+          <div style="font-size: 13px; font-weight: 600; color: var(--accent-cyan); margin-bottom: 8px;" id="lblScheduleStatus">
+            Schedule: Not Set
+          </div>
+          <div class="schedule-actions">
+            <button class="btn-schedule" id="btnScheduleOn">Schedule ON (10s)</button>
+            <button class="btn-schedule" id="btnScheduleOff">Schedule OFF (10s)</button>
+            <button class="btn-schedule cancel" id="btnScheduleCancel">Cancel Schedule</button>
+          </div>
+        </div>
+
+        <!-- Telemetry Section -->
+        <div class="detail-card-section">
+          <div class="section-label">⚡ Electrical Telemetry (Real-Time)</div>
+          <div class="telemetry-grid">
+            <div class="telemetry-card">
+              <div class="t-label">Power Consumption</div>
+              <div class="t-val" id="lblDevicePower">0 W</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="t-label">Supply Voltage</div>
+              <div class="t-val" id="lblDeviceVoltage">230 V</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="t-label">Draw Current</div>
+              <div class="t-val" id="lblDeviceCurrent">0.000 A</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="t-label">Today's Energy</div>
+              <div class="t-val" id="lblDeviceEnergy">0.00 kWh</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js"></script>
+</body>
+</html>

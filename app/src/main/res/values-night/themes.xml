@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Keep the SmartHome UI intentionally light in all system modes. -->
+    <style name="Base.Theme.SmartHome" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="colorSurface">@color/card</item>
+        <item name="colorSurfaceVariant">@color/card</item>
+    </style>
+</resources>

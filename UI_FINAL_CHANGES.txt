@@ -1,0 +1,30 @@
+FINAL UI / MINI-PROJECT ALIGNMENT UPDATE
+
+1. Replaced Unicode/emoji UI icons with Android vector Material-style icons for:
+   - Main dashboard
+   - Floors
+   - Rooms
+   - Devices
+   - Notifications
+   - Energy/Reports
+   - Live indicator
+
+2. Added modern device icons for Light, Outlet, Camera, Iron and Switch.
+
+3. Removed duplicate legacy TextView emoji icon views from floor/room cards.
+
+4. Added live power text to device cards.
+
+5. Device ERROR and DISCONNECTED states are shown and the toggle is disabled for those states.
+
+6. Preserved the existing Firebase realtime synchronization, schedule countdown behavior,
+   camera mock stream/status behavior, iron temperature control, switch control and safety logic.
+
+7. Preserved backend Firebase safety functions including the iron safety worker and state listener.
+
+8. Floor screen remains a simple two-column room grid, satisfying the project's abstract grid mapping concept.
+
+9. Floor and room names continue to use the Firebase floorName/roomName fields with fallbacks.
+
+BUILD NOTE:
+The source/XML files were statically checked for XML validity and drawable references. A Gradle build could not be executed in this environment because the configured Gradle 9.4.1 distribution is not locally cached and network access to services.gradle.org is unavailable. Run Clean Project / Rebuild Project in Android Studio before submission.

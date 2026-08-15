@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F7FB">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <!-- ================================================= -->
+        <!-- DEVICE HEADER CARD -->
+        <!-- ================================================= -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/txtDeviceTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wall Outlet"
+                    android:textSize="27sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/textPrimary"/>
+
+                <TextView
+                    android:id="@+id/txtDeviceType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Electrical Outlet"
+                    android:textSize="15sp"
+                    android:textColor="#777777"/>
+
+                <TextView
+                    android:id="@+id/txtStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Status : OFF"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="#777777"/>
+
+                <!-- STATUS ALERT BANNER -->
+                <LinearLayout
+                    android:id="@+id/layoutStatusAlert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:background="#FEE2E2"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/txtStatusAlertTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FAULT ALERT"
+                        android:textStyle="bold"
+                        android:textColor="#DC2626"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/txtStatusAlertBody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Hardware error or network disconnect detected."
+                        android:textColor="#991B1B"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <!-- STATUS CONTROLS (ON, OFF, ERROR, DISCONNECTED) -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Status Override &amp; Simulation"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#64748B"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSetStatusOn"
+                        android:layout_width="0dp"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="2dp"
+                        android:text="ON"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="false"
+                        android:singleLine="true"
+                        android:padding="0dp"
+                        android:gravity="center"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:backgroundTint="#16A34A"
+                        app:cornerRadius="8dp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSetStatusOff"
+                        android:layout_width="0dp"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:text="OFF"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="false"
+                        android:singleLine="true"
+                        android:padding="0dp"
+                        android:gravity="center"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:backgroundTint="#475569"
+                        app:cornerRadius="8dp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSetStatusError"
+                        android:layout_width="0dp"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:text="ERROR"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="false"
+                        android:singleLine="true"
+                        android:padding="0dp"
+                        android:gravity="center"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:backgroundTint="#DC2626"
+                        app:cornerRadius="8dp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSetStatusDisconnected"
+                        android:layout_width="0dp"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="2dp"
+                        android:text="DISCONN"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="false"
+                        android:singleLine="true"
+                        android:padding="0dp"
+                        android:gravity="center"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:backgroundTint="#D97706"
+                        app:cornerRadius="8dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- ================================================= -->
+        <!-- IRON INFORMATION CARD -->
+        <!-- ================================================= -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardIron"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Iron Information"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtRemaining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Remaining : --"
+                    android:textSize="16sp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/txtMaximum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Maximum : --"
+                    android:textSize="16sp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/txtSafety"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Safety : SAFE"
+                    android:textSize="16sp"
+                    android:textColor="#2E7D32"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- ================================================= -->
+        <!-- SCHEDULE CARD -->
+        <!-- ================================================= -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Schedule"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtScheduleStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Schedule: Not Set"
+                    android:textSize="14sp"
+                    android:textColor="#666666"/>
+
+                <Button
+                    android:id="@+id/btnScheduleOn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Schedule ON in 10 seconds"
+                    android:textAllCaps="false"/>
+
+                <Button
+                    android:id="@+id/btnScheduleOff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="Schedule OFF in 10 seconds"
+                    android:textAllCaps="false"/>
+
+                <Button
+                    android:id="@+id/btnCancelSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="Cancel Schedule"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- ================================================= -->
+        <!-- LIGHT INFORMATION CARD -->
+        <!-- ================================================= -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lighting"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+
+                <!-- ========================================= -->
+                <!-- LIGHT ON / OFF -->
+                <!-- ========================================= -->
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchLightPower"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Light Power"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+
+                <!-- ========================================= -->
+                <!-- BRIGHTNESS -->
+                <!-- ========================================= -->
+
+                <TextView
+                    android:id="@+id/txtBrightness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Brightness : 80%"
+                    android:textSize="16sp"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderBrightness"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:valueFrom="0"
+                    android:valueTo="100"
+                    android:value="80"
+                    android:visibility="gone"/>
+
+
+                <!-- ========================================= -->
+                <!-- LIGHT SCHEDULE -->
+                <!-- ========================================= -->
+
+                <TextView
+                    android:id="@+id/txtSchedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Schedule : 6PM - 11PM"
+                    android:textSize="15sp"
+                    android:textColor="#666666"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- ================================================= -->
+        <!-- CAMERA INFORMATION CARD -->
+        <!-- ================================================= -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCamera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Camera"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtCameraStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Camera Connected"
+                    android:textSize="16sp"
+                    android:textColor="#2E7D32"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/imgCameraPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#E5E5E5"
+                    android:scaleType="centerInside"
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/txtResolution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Resolution : 1080P"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/txtFPS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="FPS : 30"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchRecording"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Recording"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchMotion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Motion Detection"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchNightVision"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Night Vision"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- ================================================= -->
+        <!-- EXTRA CONTROLS -->
+        <!-- ================================================= -->
+
+        <LinearLayout
+            android:id="@+id/layoutExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="vertical"/>
+
+
+        <!-- ================================================= -->
+        <!-- LIVE INFORMATION -->
+        <!-- ================================================= -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Live Information"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+
+                <!-- POWER -->
+
+                <TextView
+                    android:id="@+id/txtPower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Power : 0 W"
+                    android:textSize="16sp"/>
+
+
+                <!-- VOLTAGE -->
+
+                <TextView
+                    android:id="@+id/txtVoltage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:text="Voltage : 230 V"
+                    android:textSize="16sp"/>
+
+
+                <!-- CURRENT -->
+
+                <TextView
+                    android:id="@+id/txtCurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:text="Current : 0 A"
+                    android:textSize="16sp"/>
+
+
+                <!-- ENERGY -->
+
+                <TextView
+                    android:id="@+id/txtEnergy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:text="Today's Energy : 0 kWh"
+                    android:textSize="16sp"/>
+
+
+                <!-- ========================================= -->
+                <!-- TEMPERATURE -->
+                <!-- ========================================= -->
+
+                <TextView
+                    android:id="@+id/txtTemperatureTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="Temperature"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/txtTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="145°C"
+                    android:textSize="17sp"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:valueFrom="80"
+                    android:valueTo="220"
+                    android:stepSize="5"
+                    android:value="145"
+                    android:visibility="gone"/>
+
+
+                <!-- ========================================= -->
+                <!-- MULTI SWITCH -->
+                <!-- ========================================= -->
+
+                <TextView
+                    android:id="@+id/txtSwitchTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="Switch Control"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Living Room Light"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Garden Light"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchThree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Outdoor Lamp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</ScrollView>
