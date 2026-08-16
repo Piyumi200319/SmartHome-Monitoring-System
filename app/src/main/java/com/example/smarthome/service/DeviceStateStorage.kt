@@ -50,7 +50,7 @@ object DeviceStateStorage {
          */
 
         val timerToSave =
-            if (device.type == "Iron" && !device.isOn) {
+            if (device.type.equals("Iron", ignoreCase = true) && !device.isOn) {
                 0
             } else {
                 device.timer
@@ -239,7 +239,7 @@ object DeviceStateStorage {
          */
 
         device.timer =
-            if (device.type == "Iron" && !device.isOn) {
+            if (device.type.equals("Iron", ignoreCase = true) && !device.isOn) {
                 0
             } else {
                 savedTimer
@@ -345,7 +345,7 @@ object DeviceStateStorage {
         // FIX IRON ELECTRICAL STATE
         // --------------------------------------------------
 
-        if (device.type == "Iron" && !device.isOn) {
+        if (device.type.equals("Iron", ignoreCase = true) && !device.isOn) {
 
             device.timer = 0
             device.power = 0

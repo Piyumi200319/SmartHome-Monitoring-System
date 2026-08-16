@@ -25,6 +25,7 @@ import com.example.smarthome.firebase.FirebaseDevice
 import com.example.smarthome.firebase.FirebaseRepository
 import com.example.smarthome.models.Device
 import com.example.smarthome.service.DeviceStateStorage
+import com.example.smarthome.service.EnergyService
 import com.example.smarthome.service.NotificationService
 import com.example.smarthome.service.ScheduleService
 
@@ -1175,6 +1176,8 @@ class DeviceDetailActivity : AppCompatActivity() {
                     device.isOn = true
                     device.status = "ON"
 
+                    EnergyService().updateDeviceElectricalInfo(device)
+
                     device.scheduleAction = ""
                     device.scheduleDueAt = 0L
                     device.scheduleRemaining = 0
@@ -1257,8 +1260,8 @@ class DeviceDetailActivity : AppCompatActivity() {
 
                     device.isOn = false
                     device.status = "OFF"
-                    device.power = 0
-                    device.current = 0.0
+
+                    EnergyService().updateDeviceElectricalInfo(device)
 
                     device.scheduleAction = ""
                     device.scheduleDueAt = 0L

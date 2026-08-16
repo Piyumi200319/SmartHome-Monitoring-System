@@ -441,6 +441,7 @@ object ScheduleService {
                     "isOn" to device.isOn,
                     "status" to device.status,
                     "power" to device.power,
+                    "voltage" to device.voltage,
                     "current" to device.current,
                     "energyToday" to device.energyToday,
                     "brightness" to device.brightness,
@@ -535,6 +536,8 @@ object ScheduleService {
         action: String
     ) {
 
+        val normalizedType = device.type.trim().lowercase()
+
         when (action.uppercase()) {
 
             // ==================================================
@@ -544,93 +547,23 @@ object ScheduleService {
             "ON" -> {
 
                 device.isOn = true
-
                 device.status = "ON"
 
+                when (normalizedType) {
 
-                /*
-                 * ------------------------------
-                 * IRON
-                 * ------------------------------
-                 */
-                if (
-                    device.type
-                        .trim()
-                        .equals(
-                            "Iron",
-                            ignoreCase = true
-                        )
-                ) {
-
-                    device.timer = 120
-
-                    device.heating =
-                        true
-
-                    device.safetyMode =
-                        "SAFE"
-
-                    device.power =
-                        1200
-
-                    device.current =
-                        if (device.voltage > 0) {
-
-                            device.power.toDouble() /
-                                    device.voltage.toDouble()
-
-                        } else {
-
-                            0.0
+                    "iron" -> {
+                        if (device.timer <= 0) {
+                            device.timer = if (device.maxTime > 0) device.maxTime else 120
                         }
-                }
+                        device.heating = true
+                        device.safetyMode = "SAFE"
+                    }
 
-
-                /*
-                 * ------------------------------
-                 * SWITCH
-                 * ------------------------------
-                 */
-                if (
-                    device.type
-                        .trim()
-                        .equals(
-                            "Switch",
-                            ignoreCase = true
-                        )
-                ) {
-
-                    device.switch1 =
-                        true
-
-                    device.switch2 =
-                        true
-
-                    device.switch3 =
-                        true
-                }
-
-
-                /*
-                 * LIGHT
-                 *
-                 * Do NOT change brightness here.
-                 *
-                 * A scheduled ON should preserve the
-                 * user's existing brightness.
-                 */
-                if (
-                    device.type
-                        .trim()
-                        .equals(
-                            "Light",
-                            ignoreCase = true
-                        )
-                ) {
-
-                    /*
-                     * Keep brightness unchanged.
-                     */
+                    "switch" -> {
+                        device.switch1 = true
+                        device.switch2 = true
+                        device.switch3 = true
+                    }
                 }
             }
 
@@ -641,117 +574,29 @@ object ScheduleService {
 
             "OFF" -> {
 
-                device.isOn =
-                    false
+                device.isOn = false
+                device.status = "OFF"
 
-                device.status =
-                    "OFF"
+                when (normalizedType) {
 
+                    "iron" -> {
+                        device.timer = 0
+                        device.heating = false
+                        device.safetyMode = "SAFE"
+                    }
 
-                /*
-                 * ------------------------------
-                 * IRON
-                 * ------------------------------
-                 */
-                if (
-                    device.type
-                        .trim()
-                        .equals(
-                            "Iron",
-                            ignoreCase = true
-                        )
-                ) {
-
-                    device.timer =
-                        0
-
-                    device.heating =
-                        false
-
-                    device.safetyMode =
-                        "SAFE"
-
-                    device.power =
-                        0
-
-                    device.current =
-                        0.0
-                }
-
-
-                /*
-                 * ------------------------------
-                 * SWITCH
-                 * ------------------------------
-                 */
-                if (
-                    device.type
-                        .trim()
-                        .equals(
-                            "Switch",
-                            ignoreCase = true
-                        )
-                ) {
-
-                    device.switch1 =
-                        false
-
-                    device.switch2 =
-                        false
-
-                    device.switch3 =
-                        false
-
-                    device.power =
-                        0
-
-                    device.current =
-                        0.0
-                }
-
-
-                /*
-                 * ------------------------------
-                 * LIGHT
-                 * ------------------------------
-                 *
-                 * Brightness is intentionally preserved.
-                 *
-                 * Example:
-                 *
-                 * Brightness = 70%
-                 *
-                 * OFF schedule:
-                 * isOn = false
-                 * status = OFF
-                 * brightness = 70%
-                 *
-                 * Later ON:
-                 * isOn = true
-                 * status = ON
-                 * brightness = 70%
-                 */
-                if (
-                    device.type
-                        .trim()
-                        .equals(
-                            "Light",
-                            ignoreCase = true
-                        )
-                ) {
-
-                    device.power =
-                        0
-
-                    device.current =
-                        0.0
+                    "switch" -> {
+                        device.switch1 = false
+                        device.switch2 = false
+                        device.switch3 = false
+                    }
                 }
             }
         }
 
 
         /*
-         * Recalculate electrical information.
+         * Recalculate electrical information for all device types.
          */
         EnergyService()
             .updateDeviceElectricalInfo(

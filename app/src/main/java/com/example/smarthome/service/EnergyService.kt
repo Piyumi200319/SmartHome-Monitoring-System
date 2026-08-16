@@ -35,11 +35,9 @@ class EnergyService {
         voltage: Int
     ): Double {
 
-        if (voltage <= 0) {
-            return 0.0
-        }
+        val safeVoltage = if (voltage > 0) voltage else 230
 
-        return power.toDouble() / voltage.toDouble()
+        return power.toDouble() / safeVoltage.toDouble()
     }
 
     // ==================================================
@@ -63,13 +61,19 @@ class EnergyService {
         device: Device
     ) {
 
-        when (device.type) {
+        if (device.voltage <= 0) {
+            device.voltage = 230
+        }
+
+        val normalizedType = device.type.trim().lowercase()
+
+        when (normalizedType) {
 
             // ------------------------------------------
             // LIGHT
             // ------------------------------------------
 
-            "Light" -> {
+            "light" -> {
 
                 if (device.isOn) {
 
@@ -87,13 +91,14 @@ class EnergyService {
             // IRON
             // ------------------------------------------
 
-            "Iron" -> {
+            "iron" -> {
 
                 if (device.isOn) {
 
+                    val temp = if (device.temperature > 0) device.temperature else 120
                     device.power =
                         calculatePower(
-                            device.temperature
+                            temp
                         )
 
                 } else {
@@ -106,7 +111,7 @@ class EnergyService {
             // OUTLET
             // ------------------------------------------
 
-            "Outlet" -> {
+            "outlet" -> {
 
                 if (device.isOn) {
 
@@ -122,7 +127,7 @@ class EnergyService {
             // CAMERA
             // ------------------------------------------
 
-            "Camera" -> {
+            "camera" -> {
 
                 if (device.isOn) {
 
@@ -138,23 +143,37 @@ class EnergyService {
             // MULTI SWITCH
             // ------------------------------------------
 
-            "Switch" -> {
+            "switch" -> {
 
-                var switchPower = 0
+                if (device.isOn) {
 
-                if (device.switch1) {
-                    switchPower += 1
+                    var switchPower = 0
+
+                    if (device.switch1) {
+                        switchPower += 1
+                    }
+
+                    if (device.switch2) {
+                        switchPower += 1
+                    }
+
+                    if (device.switch3) {
+                        switchPower += 1
+                    }
+
+                    device.power = if (switchPower > 0) switchPower else 3
+
+                } else {
+
+                    device.power = 0
                 }
+            }
 
-                if (device.switch2) {
-                    switchPower += 1
+            else -> {
+
+                if (!device.isOn) {
+                    device.power = 0
                 }
-
-                if (device.switch3) {
-                    switchPower += 1
-                }
-
-                device.power = switchPower
             }
         }
 
